@@ -1,7 +1,5 @@
-﻿using AventStack.ExtentReports.Gherkin.Model;
-using Microsoft.Playwright;
+﻿using Microsoft.Playwright;
 using PlaywrightUI.Helpers;
-using RazorEngine.Compilation.ImpromptuInterface;
 
 namespace PlaywrightUI.Pages
 {
