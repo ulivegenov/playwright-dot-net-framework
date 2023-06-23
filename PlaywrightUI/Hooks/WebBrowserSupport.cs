@@ -2,7 +2,6 @@
 using Microsoft.Playwright;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using NUnit.Framework;
 using PlaywrightUI.Helpers;
 using System.Reflection;
 using TechTalk.SpecFlow;
