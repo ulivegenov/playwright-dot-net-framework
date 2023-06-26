@@ -2,6 +2,9 @@
 
 namespace PlaywrightUI.Helpers
 {
+    /// <summary>
+    /// Environment and envrionment variable configuration
+    /// </summary>
     public static class BaseConfig
     {
         private static readonly IConfiguration Config = new ConfigurationBuilder()

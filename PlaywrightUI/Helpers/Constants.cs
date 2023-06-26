@@ -1,5 +1,8 @@
 ﻿namespace PlaywrightUI.Helpers
 {
+    /// <summary>
+    /// Project constants
+    /// </summary>
     internal static class Constants
     {
         public const string CHROMIUM_BROWSER = "Chromium";

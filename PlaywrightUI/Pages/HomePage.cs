@@ -19,9 +19,9 @@ namespace PlaywrightUI.Pages
             await ClickOnAsync(AcceptCookiesButton);
         }
 
-        public async Task FillIntoSearchFieldAsync(string searchString)
+        public async Task FillIntoSearchFieldAsync(string text)
         {
-            await FillIntoAsync(SearchField, searchString);
+            await FillIntoAsync(SearchField, text);
         }
 
         public async Task ClickOnGoogleSearchButtonAsync()

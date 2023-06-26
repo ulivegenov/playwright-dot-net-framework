@@ -1,5 +1,8 @@
 ﻿namespace PlaywrightUI.Helpers
 {
+    /// <summary>
+    /// Suported browsers enum
+    /// </summary>
     public enum SupportedBrowsers
     {
         Chromium = 1,

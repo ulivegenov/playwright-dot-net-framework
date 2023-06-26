@@ -64,8 +64,8 @@ namespace PlaywrightUI.Pages
         /// The method will not throw an error when any valid HTTP status code is returned by the remote server,
         /// including 404 "Not Found" and 500 "Internal Server Error". 
         /// The status code for such responses can be retrieved by calling Response.Status.
-        /// /// <param name="targetUrl">The aimed url for naviagtion</param>
         /// </summary>
+        /// <param name="targetUrl">The aimed url for naviagtion</param>
         public async Task NavigateToUrlAsync(string targetUrl)
         {
             await Page.GotoAsync(targetUrl);
@@ -78,10 +78,9 @@ namespace PlaywrightUI.Pages
         ///    3.Use Page.Mouse to click in the center of the element.
         ///    4.Wait for initiated navigations to either succeed or fail. 
         ///    Note that if the first click of the dblclick() triggers a navigation event, this method will throw.
-        /// 
+        /// </summary>
         /// <param name="mouseButton">enum MouseButton { Left, Right, Middle }? (optional). Defaults to left.</param>
         /// <param name="delay">Time to wait between mousedown and mouseup in milliseconds. Defaults to 0.</param>
-        /// </summary>
         public async Task ClickOnAsync(ILocator locator, MouseButton mouseButton = MouseButton.Left, float delay = 0)
         {
             await locator.ClickAsync(new LocatorClickOptions
@@ -98,10 +97,9 @@ namespace PlaywrightUI.Pages
         ///    3.Use Page.Mouse to double click in the center of the element.
         ///    4.Wait for initiated navigations to either succeed or fail. 
         ///    Note that if the first click of the dblclick() triggers a navigation event, this method will throw.
-        /// 
+        /// </summary>
         /// <param name="mouseButton">enum MouseButton { Left, Right, Middle }? (optional). Defaults to left.</param>
         /// <param name="delay">Time to wait between mousedown and mouseup in milliseconds. Defaults to 0.</param>
-        /// </summary>
         public async Task DoubleClickOnAsync(ILocator locator, MouseButton mouseButton = MouseButton.Left, float delay = 0)
         {
             await locator.DblClickAsync(new LocatorDblClickOptions
@@ -132,9 +130,9 @@ namespace PlaywrightUI.Pages
 
         /// <summary>
         /// Drags the source element towards the target element and drop it.
+        /// </summary>
         /// <param name="sourceLocator">Locator of the element to drag.</param>
         /// <param name="targetLocator">Locator of the element to drag to.</param>
-        /// </summary>
         public async Task DragAndDropAsync(ILocator sourceLocator, ILocator targetLocator)
         {
             await sourceLocator.DragToAsync(targetLocator);
@@ -157,8 +155,8 @@ namespace PlaywrightUI.Pages
         /// If the target element is not an <input>, <textarea> or [contenteditable] element, this method throws an error.
         /// However, if the element is inside the <label> element that has an associated control, the control will be filled instead.
         /// To send fine-grained keyboard events, use TypeWithKeyAsync() method.
-        /// <param name="text">A text to type into a focused element.</param>
         /// </summary>
+        /// <param name="text">A text to type into a focused element.</param>
         public async Task FillIntoAsync(ILocator locator, string text)
         {
             await locator.FillAsync(text);
@@ -170,10 +168,9 @@ namespace PlaywrightUI.Pages
         /// Usage:
         ///     await locator.TypeAsync("Hello"); // Types instantly
         ///     await locator.TypeAsync("World", 100); // Types slower, like a user
-        ///
+        /// </summary>
         /// <param name="text">A text to type into a focused element.</param>
         /// <param name="delay">Time to wait between key presses in milliseconds. Defaults to 0.</param>
-        /// </summary>
         public async Task TypeWithKeysAsync(ILocator locator, string text, float delay = 0)
         {
             await locator.TypeAsync(text, new()
@@ -193,10 +190,9 @@ namespace PlaywrightUI.Pages
         /// If key is a single character, it is case-sensitive, so the values a and A will generate different respective texts.
         /// Shortcuts such as key: "Control+o" or key: "Control+Shift+T" are supported as well. 
         /// When specified with the modifier, modifier is pressed and being held while the subsequent key is being pressed.
-        /// 
+        /// </summary>
         /// <param name="keyName">Name of the key, or shortcut to press or a character to generate, such as ArrowLeft, Control+Shift+T or a.</param>
         /// <param name="delay">Time to wait between keydown and keyup in milliseconds. Defaults to 0.</param>
-        /// </summary>
         public async Task PressKeysAsync(ILocator locator, string keyName, float delay = 0)
         {
             await locator.PressAsync(keyName, new()
@@ -215,8 +211,8 @@ namespace PlaywrightUI.Pages
 
         /// <summary>
         /// Returns the matching element's attribute value.
-        /// <param name="attributeName">Attribute name to get the value for.</param>
         /// </summary>
+        /// <param name="attributeName">Attribute name to get the value for.</param>
         public async Task GetElementAttributeAsync(ILocator locator, string attributeName)
         {
             await locator.GetAttributeAsync(attributeName);
@@ -331,7 +327,6 @@ namespace PlaywrightUI.Pages
 
         /// <summary>
         /// Selects option or options in <select>.
-        /// <param name="options">Options to select.</param>
         /// If the <select> has the multiple attribute, all matching options are selected,
         /// otherwise only the first option matching one of the passed options is selected. 
         /// String values are matching both values and labels.
@@ -342,6 +337,7 @@ namespace PlaywrightUI.Pages
         /// Returns the array of option values that have been successfully selected.
         /// Triggers a change and input event once all the provided options have been selected.
         /// </summary>
+        /// <param name="options">Options to select.</param>
         public async Task<IEnumerable<string>> SelectOptionAsync(ILocator locator, params string[] options)
         {
             return await locator.SelectOptionAsync(options);
@@ -351,6 +347,7 @@ namespace PlaywrightUI.Pages
         /// Returns when element specified by locator satisfies the state option.
         /// If target element already satisfies the condition, the method returns immediately. 
         /// Otherwise, waits for up to timeout milliseconds until the condition is met.
+        /// </summary>
         /// <param name="elementState">enum WaitForSelectorState { Attached, Detached, Visible, Hidden }</param>
         ///     * 'attached' - wait for element to be present in DOM.
         ///     * 'detached' - wait for element to not be present in DOM.
@@ -359,7 +356,6 @@ namespace PlaywrightUI.Pages
         ///     * 'hidden' - wait for element to be either detached from DOM, or have an empty bounding box or visibility:hidden.
         ///       This is opposite to the 'visible' option.
         /// <param name="timeout">Maximum time in milliseconds. Defaults to 30000 (30 seconds). Pass 0 to disable timeout.</param>
-        /// </summary>
         public async Task WaitForElementState(ILocator locator, WaitForSelectorState elementState, float? timeout = null)
         {
             await locator.WaitForAsync(new LocatorWaitForOptions
