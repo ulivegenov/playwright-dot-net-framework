@@ -2,27 +2,25 @@
 using Microsoft.Playwright;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using PlaywrightUI.Helpers;
+using PlaywrightUtils.CommonHelpers;
+using PlaywrightUtils.API.Actions;
 using System.Reflection;
 using TechTalk.SpecFlow;
 
-namespace PlaywrightUI.Hooks
+namespace PlaywrightSpecflow.API.Hooks
 {
     [Binding]
-    public class WebBrowserSupport
+    internal class RestClientSupport
     {
         private static readonly NLog.Logger _log = NLog.LogManager.GetCurrentClassLogger();
 
         private readonly IObjectContainer _objectContainer;
-        private ScenarioContext _scenarioContext;
         private static IPlaywright _playwrightDriver;
-        private static BrowserFactory _browserFactory;
+        RestClientManager _restClientManager;
 
-        public WebBrowserSupport(IObjectContainer objectContainer, ScenarioContext scenarioContext)
+        public RestClientSupport(IObjectContainer objectContainer)
         {
             _objectContainer = objectContainer;
-            _scenarioContext = scenarioContext;
-            _browserFactory = new BrowserFactory(_scenarioContext);
         }
 
         [BeforeTestRun]
@@ -35,27 +33,21 @@ namespace PlaywrightUI.Hooks
             _playwrightDriver = await Playwright.CreateAsync();
         }
 
-        [BeforeScenario(Order = 0), Scope(Tag = "UI")]
-        public async Task InitializeBrowser()
+        [BeforeScenario(Order = 0), Scope(Tag = "API")]
+        public async Task SetupRestClient()
         {
-            var currentBrowser = await _browserFactory.InitializeBrowserAsync(_playwrightDriver);
-            _log.Debug($"{currentBrowser.BrowserType.Name.ToUpper()} version {currentBrowser.Version.ToUpper()} is launched.");
-
-            _objectContainer.RegisterInstanceAs(currentBrowser);
+            _restClientManager= new RestClientManager();
+            await _restClientManager.InitializeRestClientAsync(_playwrightDriver, BaseConfig.BaseApiUrl);
+            _objectContainer.RegisterInstanceAs(_restClientManager);
+            _log.Debug("RestClient initialized.");
         }
 
-        [AfterScenario(Order = 0)]
-        public async Task QuitWebBrowser()
+        [AfterScenario(Order = 0), Scope(Tag = "API")]
+        public async Task DisposeRestClient()
         {
-            IBrowser browser = _objectContainer.Resolve<IBrowser>();
-
-            if (browser != null)
-            {
-                var browserName = browser.BrowserType.Name.ToUpper();
-                _log.Debug($"Closing {browserName} browser...");
-                await browser.CloseAsync();
-                _log.Debug($"{browserName} browser is closed.");
-            }
+            _log.Debug("Disposing RestClient...");
+            await _restClientManager.DisposeRequestContextAsync();
+            _log.Debug("RestClient disposed.");
         }
 
         private static void LogAppsettingsValues()

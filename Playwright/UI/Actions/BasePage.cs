@@ -1,13 +1,13 @@
 ﻿using Microsoft.Playwright;
-using PlaywrightUI.Helpers;
+using PlaywrightUtils.CommonHelpers;
 
-namespace PlaywrightUI.Pages
+namespace PlaywrightSpecflow.CommonHelpers
 {
     /// <summary>
     /// All Page classes should extend BasePage and use the predefined
     /// methods when interacting with WebElements
     /// </summary>
-    internal abstract class BasePage
+    public abstract class BasePage
     {
         private IBrowser _browser;
         protected IPage _page;
@@ -21,7 +21,7 @@ namespace PlaywrightUI.Pages
         protected IPage Page
         {
             get { return _page; }
-            private  set { _page = value; }
+            private set { _page = value; }
         }
 
         /// <summary>

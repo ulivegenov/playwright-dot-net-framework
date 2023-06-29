@@ -1,6 +1,7 @@
 ﻿using Microsoft.Playwright;
+using PlaywrightSpecflow.CommonHelpers;
 
-namespace PlaywrightUI.Pages
+namespace PlaywrightSpecflow.UI.Pages
 {
     internal class HomePage : BasePage
     {

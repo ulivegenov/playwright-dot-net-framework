@@ -1,5 +1,5 @@
 ﻿@UI
-Feature: Test
+Feature: UiTests
 
 A short summary of the feature
 

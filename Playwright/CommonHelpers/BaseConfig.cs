@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-namespace PlaywrightUI.Helpers
+namespace PlaywrightUtils.CommonHelpers
 {
     /// <summary>
     /// Environment and envrionment variable configuration
@@ -13,5 +13,6 @@ namespace PlaywrightUI.Helpers
             .Build();
 
         public static string BaseUrl => Config["BASE_URL"];
+        public static string BaseApiUrl => Config["BASE_API_URL"];
     }
 }

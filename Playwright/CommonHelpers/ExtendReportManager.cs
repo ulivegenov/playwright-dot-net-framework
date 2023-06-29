@@ -7,13 +7,13 @@ using Microsoft.Playwright;
 using System.Diagnostics;
 using TechTalk.SpecFlow;
 
-namespace PlaywrightUI.Helpers
+namespace PlaywrightUtils.CommonHelpers
 {
     /// <summary>
     /// This class provides Extent Report capabilities
     /// </summary>
     [Binding]
-    internal class ExtendReportManager
+    public class ExtendReportManager
     {
         private static readonly NLog.Logger Log = NLog.LogManager.GetCurrentClassLogger();
 
@@ -292,7 +292,7 @@ namespace PlaywrightUI.Helpers
                 Log.Error("Error occurred during Browser log capture!");
                 Log.Error(e.ToString());
             }
-            
+
             return fileName;
         }
     }

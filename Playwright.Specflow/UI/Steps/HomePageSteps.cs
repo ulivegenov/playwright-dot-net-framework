@@ -1,6 +1,6 @@
 ﻿using Microsoft.Playwright;
 using NUnit.Framework;
-using PlaywrightUI.Pages;
+using PlaywrightSpecflow.UI.Pages;
 using TechTalk.SpecFlow;
 
 namespace PlaywrightUI.Steps

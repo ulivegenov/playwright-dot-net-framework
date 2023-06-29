@@ -10,7 +10,7 @@
   },
 
   "stepAssemblies": [
-    { "assembly": "PlaywrightUI" }
+    { "assembly": "PlaywrightSpecflow" }
   ],
 
   "ide": {

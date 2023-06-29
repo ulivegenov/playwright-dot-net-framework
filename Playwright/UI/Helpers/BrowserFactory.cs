@@ -1,8 +1,8 @@
 ﻿using Microsoft.Playwright;
 using TechTalk.SpecFlow;
-using static PlaywrightUI.Helpers.Constants;
+using static PlaywrightUtils.UI.Helpers.Constants;
 
-namespace PlaywrightUI.Helpers
+namespace PlaywrightUtils.UI.Helpers
 {
     /// <summary>
     /// Creates a browser instance from supported browser type

@@ -1,4 +1,4 @@
-﻿namespace PlaywrightUI.Helpers
+﻿namespace PlaywrightUtils.UI.Helpers
 {
     /// <summary>
     /// Suported browsers enum

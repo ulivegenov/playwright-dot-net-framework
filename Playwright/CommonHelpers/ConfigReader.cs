@@ -1,8 +1,8 @@
 ﻿using System.Net;
 
-namespace PlaywrightUI.Helpers
+namespace PlaywrightUtils.CommonHelpers
 {
-    internal class ConfigReader
+    public class ConfigReader
     {
         public static string GetCurrentEnv()
         {
