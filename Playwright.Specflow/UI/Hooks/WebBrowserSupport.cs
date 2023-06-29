@@ -2,6 +2,7 @@
 using Microsoft.Playwright;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using NUnit.Framework;
 using PlaywrightUtils.CommonHelpers;
 using PlaywrightUtils.UI.Helpers;
 using System.Reflection;
@@ -26,7 +27,7 @@ namespace PlaywrightSpecflow.UI.Hooks
             _browserFactory = new BrowserFactory(_scenarioContext);
         }
 
-        [BeforeTestRun]
+        [BeforeTestRun(Order = 1)]
         public static async Task BeforeTestRunSetup()
         {
             //Log appsettings values for environment

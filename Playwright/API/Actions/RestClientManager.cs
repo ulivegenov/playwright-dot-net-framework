@@ -28,7 +28,7 @@ namespace PlaywrightUtils.API.Actions
 
             _requestContext = await playwrightObject.APIRequest.NewContextAsync(new APIRequestNewContextOptions
             {
-                BaseURL = baseUrl
+                BaseURL = baseUrl,
             });
         }
 

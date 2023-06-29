@@ -23,7 +23,7 @@ namespace PlaywrightSpecflow.API.Hooks
             _objectContainer = objectContainer;
         }
 
-        [BeforeTestRun]
+        [BeforeTestRun(Order = 1)]
         public static async Task BeforeTestRunSetup()
         {
             //Log appsettings values for environment

@@ -54,7 +54,7 @@ namespace PlaywrightUtils.UI.Helpers
         {
             return await playwrightDriver.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
             {
-                Headless = false
+                Headless = false,
             });
         }
 
