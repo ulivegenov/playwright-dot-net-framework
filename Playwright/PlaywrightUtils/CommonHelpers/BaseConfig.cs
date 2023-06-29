@@ -14,5 +14,7 @@ namespace PlaywrightUtils.CommonHelpers
 
         public static string BaseUrl => Config["BASE_URL"];
         public static string BaseApiUrl => Config["BASE_API_URL"];
+        public static string Email => Config["EMAIL"];
+        public static string Password => Config["PASSWORD"];
     }
 }

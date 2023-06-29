@@ -6,6 +6,7 @@ using PlaywrightUtils.CommonHelpers;
 using PlaywrightUtils.API.Actions;
 using System.Reflection;
 using TechTalk.SpecFlow;
+using PlaywrightSpecflow.API.Helpers;
 
 namespace PlaywrightSpecflow.API.Hooks
 {
@@ -31,14 +32,16 @@ namespace PlaywrightSpecflow.API.Hooks
 
             //Creates Playwrigth object
             _playwrightDriver = await Playwright.CreateAsync();
+
+            await AccessTokenRetriever.ObtainAccessTokenAsync(_playwrightDriver, BaseConfig.Email, BaseConfig.Password);
+            var token = AccessTokenRetriever.AccessTokens[BaseConfig.Email];
         }
 
         [BeforeScenario(Order = 0), Scope(Tag = "API")]
         public async Task SetupRestClient()
         {
-            _restClientManager= new RestClientManager();
-            await _restClientManager.InitializeRestClientAsync(_playwrightDriver, BaseConfig.BaseApiUrl);
-            _objectContainer.RegisterInstanceAs(_restClientManager);
+            _restClientManager = new RestClientManager(_playwrightDriver, BaseConfig.BaseApiUrl);
+            _objectContainer.RegisterInstanceAs(_restClientManager.RequestContext);
             _log.Debug("RestClient initialized.");
         }
 
@@ -46,7 +49,10 @@ namespace PlaywrightSpecflow.API.Hooks
         public async Task DisposeRestClient()
         {
             _log.Debug("Disposing RestClient...");
-            await _restClientManager.DisposeRequestContextAsync();
+            if (_restClientManager is not null)
+            {
+                await _restClientManager.DisposeRequestContextAsync();
+            }
             _log.Debug("RestClient disposed.");
         }
 

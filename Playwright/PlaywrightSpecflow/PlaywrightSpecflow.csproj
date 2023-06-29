@@ -33,13 +33,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Playwright\PlaywrightUtils.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="specflow.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <ProjectReference Include="..\PlaywrightUtils\PlaywrightUtils.csproj" />
   </ItemGroup>
 
 </Project>

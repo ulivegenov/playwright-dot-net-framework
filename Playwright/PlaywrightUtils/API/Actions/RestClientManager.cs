@@ -10,23 +10,26 @@ namespace PlaywrightUtils.API.Actions
     {
         private static readonly NLog.Logger Log = NLog.LogManager.GetCurrentClassLogger();
 
-        private IAPIRequestContext _requestContext;
-        private IAPIResponse _response;
+        private readonly Task<IAPIRequestContext> _requestContext;
+        private  IAPIResponse _response;
 
-        public IAPIResponse Response
+        public RestClientManager(IPlaywright playwrightObject, string baseUrl)
         {
-            get { return _response; }
-            private set { _response = value; }
+            _requestContext = InitializeRestClientAsync(playwrightObject, baseUrl);
         }
+
+        public IAPIRequestContext RequestContext => _requestContext.GetAwaiter().GetResult();
+
+        public IAPIResponse Response => _response;
 
         /// <summary>
         /// Initializes RestClient.
         /// </summary>
-        public async Task InitializeRestClientAsync(IPlaywright playwrightObject, string baseUrl)
+        private async Task<IAPIRequestContext> InitializeRestClientAsync(IPlaywright playwrightObject, string baseUrl)
         {
             Log.Debug("Initialize Rest Client...");
 
-            _requestContext = await playwrightObject.APIRequest.NewContextAsync(new APIRequestNewContextOptions
+            return await playwrightObject.APIRequest.NewContextAsync(new APIRequestNewContextOptions
             {
                 BaseURL = baseUrl
             });
@@ -44,7 +47,7 @@ namespace PlaywrightUtils.API.Actions
         /// <param name="body">Allows to set post data of the request.</param> 
         public async Task<IAPIResponse> ExecutePOSTRequestAsync(string url, object body)
         {
-            _response = await _requestContext.PostAsync(url, new APIRequestContextOptions
+            _response = await RequestContext.PostAsync(url, new APIRequestContextOptions
             {
                 DataObject = body
             });
@@ -64,7 +67,7 @@ namespace PlaywrightUtils.API.Actions
         /// <param name="body">Allows to set post data of the request.</param> 
         public async Task<IAPIResponse> ExecutePUTRequestAsync(string url, object body)
         {
-            _response = await _requestContext.PutAsync(url, new APIRequestContextOptions
+            _response = await RequestContext.PutAsync(url, new APIRequestContextOptions
             {
                 DataObject = body,
             });
@@ -84,7 +87,7 @@ namespace PlaywrightUtils.API.Actions
         /// <param name="body">Allows to set post data of the request.</param> 
         public async Task<IAPIResponse> ExecutePATCHRequestAsync(string url, object body)
         {
-            _response = await _requestContext.PatchAsync(url, new APIRequestContextOptions
+            _response = await RequestContext.PatchAsync(url, new APIRequestContextOptions
             {
                 DataObject = body,
             });
@@ -100,7 +103,7 @@ namespace PlaywrightUtils.API.Actions
         /// <param name="url">Target URL.</param>
         public async Task<IAPIResponse> ExecuteGETRequestAsync(string url)
         {
-            _response = await _requestContext.GetAsync(url);
+            _response = await RequestContext.GetAsync(url);
 
             return _response;
         }
@@ -113,7 +116,7 @@ namespace PlaywrightUtils.API.Actions
         /// <param name="url">Target URL.</param>
         public async Task<IAPIResponse> ExecuteDELETERequestAsync(string url)
         {
-            _response = await _requestContext.DeleteAsync(url);
+            _response = await RequestContext.DeleteAsync(url);
 
             return _response;
         }
@@ -125,7 +128,7 @@ namespace PlaywrightUtils.API.Actions
         /// </summary>
         public async Task DisposeRequestContextAsync()
         {
-            await _requestContext.DisposeAsync();
+            await RequestContext.DisposeAsync();
         }
 
         /// <summary>

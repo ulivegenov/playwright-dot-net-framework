@@ -50,7 +50,7 @@ namespace PlaywrightUtils.UI.Helpers
         /// Since the Chromium project is ahead of the branded browsers, when the world is on Google Chrome N,
         /// Playwright already supports Chromium N+1 that will be released in Google Chrome and Microsoft Edge a few weeks later.
         /// </summary>
-        public async Task<IBrowser> InitializeChromiumAsync(IPlaywright playwrightDriver)
+        private async Task<IBrowser> InitializeChromiumAsync(IPlaywright playwrightDriver)
         {
             return await playwrightDriver.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
             {
@@ -64,7 +64,7 @@ namespace PlaywrightUtils.UI.Helpers
         /// browser available on the machine (note that Playwright doesn't install it by default).
         /// In particular, the current Playwright version will support Stable channel of this browser.
         /// </summary>
-        public async Task<IBrowser> InitializeChromeAsync(IPlaywright playwrightDriver)
+        private async Task<IBrowser> InitializeChromeAsync(IPlaywright playwrightDriver)
         {
             return await playwrightDriver.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
             {
@@ -94,7 +94,7 @@ namespace PlaywrightUtils.UI.Helpers
         /// Playwright doesn't work with the branded version of Firefox since it relies on patches.
         /// Instead you can test against the recent Firefox Stable build.
         /// </summary>
-        public async Task<IBrowser> InitializeFirefoxAsync(IPlaywright playwrightDriver)
+        private async Task<IBrowser> InitializeFirefoxAsync(IPlaywright playwrightDriver)
         {
             return await playwrightDriver.Firefox.LaunchAsync(new BrowserTypeLaunchOptions
             {

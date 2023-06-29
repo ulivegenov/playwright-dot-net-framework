@@ -72,7 +72,7 @@ namespace PlaywrightSpecflow.CommonHelpers
         }
 
         /// <summary>
-        /// This method double clicks the element by performing the following steps:
+        /// This method clicks the element by performing the following steps:
         ///    1.Wait for actionability checks on the element.
         ///    2.Scroll the element into view if needed.
         ///    3.Use Page.Mouse to click in the center of the element.
