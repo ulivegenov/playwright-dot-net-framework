@@ -1,4 +1,6 @@
 ﻿using Microsoft.Playwright;
+using PlaywrightUtils.API.Helpers;
+using PlaywrightUtils.CommonHelpers;
 using System.Text.Json;
 
 namespace PlaywrightUtils.API.Actions
@@ -10,28 +12,28 @@ namespace PlaywrightUtils.API.Actions
     {
         private static readonly NLog.Logger Log = NLog.LogManager.GetCurrentClassLogger();
 
-        private readonly Task<IAPIRequestContext> _requestContext;
-        private  IAPIResponse _response;
+        private  IAPIRequestContext _requestContext;
+        private  IAPIResponse? _response;
 
-        public RestClientManager(IPlaywright playwrightObject, string baseUrl)
-        {
-            _requestContext = InitializeRestClientAsync(playwrightObject, baseUrl);
-        }
-
-        public IAPIRequestContext RequestContext => _requestContext.GetAwaiter().GetResult();
-
-        public IAPIResponse Response => _response;
+        public IAPIRequestContext RequestContext => _requestContext;
+        public IAPIResponse? Response => _response;
 
         /// <summary>
         /// Initializes RestClient.
         /// </summary>
-        private async Task<IAPIRequestContext> InitializeRestClientAsync(IPlaywright playwrightObject, string baseUrl)
+        public async Task InitializeRestClientAsync(IPlaywright playwrightObject, string baseUrl)
         {
             Log.Debug("Initialize Rest Client...");
 
-            return await playwrightObject.APIRequest.NewContextAsync(new APIRequestNewContextOptions
+            var token = AccessTokenRetriever.AccessTokens[BaseConfig.Email];
+            _requestContext = await playwrightObject.APIRequest.NewContextAsync(new APIRequestNewContextOptions
             {
-                BaseURL = baseUrl
+                BaseURL = baseUrl,
+                IgnoreHTTPSErrors = true,
+                ExtraHTTPHeaders = new Dictionary<string, string>
+                {
+                    { "Authorization", $"Bearer {token}" }
+                }
             });
         }
 
@@ -47,9 +49,9 @@ namespace PlaywrightUtils.API.Actions
         /// <param name="body">Allows to set post data of the request.</param> 
         public async Task<IAPIResponse> ExecutePOSTRequestAsync(string url, object body)
         {
-            _response = await RequestContext.PostAsync(url, new APIRequestContextOptions
+            _response = await _requestContext.PostAsync(url, new APIRequestContextOptions
             {
-                DataObject = body
+                DataObject = body,
             });
 
             return _response;
@@ -67,7 +69,7 @@ namespace PlaywrightUtils.API.Actions
         /// <param name="body">Allows to set post data of the request.</param> 
         public async Task<IAPIResponse> ExecutePUTRequestAsync(string url, object body)
         {
-            _response = await RequestContext.PutAsync(url, new APIRequestContextOptions
+            _response = await _requestContext.PutAsync(url, new APIRequestContextOptions
             {
                 DataObject = body,
             });
@@ -87,7 +89,7 @@ namespace PlaywrightUtils.API.Actions
         /// <param name="body">Allows to set post data of the request.</param> 
         public async Task<IAPIResponse> ExecutePATCHRequestAsync(string url, object body)
         {
-            _response = await RequestContext.PatchAsync(url, new APIRequestContextOptions
+            _response = await _requestContext.PatchAsync(url, new APIRequestContextOptions
             {
                 DataObject = body,
             });
@@ -103,7 +105,7 @@ namespace PlaywrightUtils.API.Actions
         /// <param name="url">Target URL.</param>
         public async Task<IAPIResponse> ExecuteGETRequestAsync(string url)
         {
-            _response = await RequestContext.GetAsync(url);
+            _response = await _requestContext.GetAsync(url);
 
             return _response;
         }
@@ -116,7 +118,7 @@ namespace PlaywrightUtils.API.Actions
         /// <param name="url">Target URL.</param>
         public async Task<IAPIResponse> ExecuteDELETERequestAsync(string url)
         {
-            _response = await RequestContext.DeleteAsync(url);
+            _response = await _requestContext.DeleteAsync(url);
 
             return _response;
         }
@@ -128,7 +130,7 @@ namespace PlaywrightUtils.API.Actions
         /// </summary>
         public async Task DisposeRequestContextAsync()
         {
-            await RequestContext.DisposeAsync();
+            await _requestContext.DisposeAsync();
         }
 
         /// <summary>

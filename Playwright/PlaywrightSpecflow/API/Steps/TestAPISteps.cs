@@ -23,6 +23,7 @@ namespace PlaywrightSpecflow.API.Steps
         [Then(@"I receive responce with status code ""([^""]*)""")]
         public void ThenIReceiveResponceWithStatusCode(int stausCode)
         {
+            var response = _restActions.Response;
             Assert.That(_restActions.Response.Status, Is.EqualTo(stausCode));
         }
     }

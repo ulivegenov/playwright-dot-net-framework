@@ -1,21 +1,14 @@
 ﻿using Microsoft.Playwright;
-using PlaywrightSpecflow.API.Models;
+using PlaywrightUtils.API.Models;
 using PlaywrightUtils.CommonHelpers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using NUnit.Framework;
 
-namespace PlaywrightSpecflow.API.Helpers
+namespace PlaywrightUtils.API.Helpers
 {
     /// <summary>
     /// Retrieves access tokens
     /// </summary>
-    internal static class AccessTokenRetriever
+    public static class AccessTokenRetriever
     {
         private static readonly NLog.Logger _log = NLog.LogManager.GetCurrentClassLogger();
 
@@ -47,8 +40,6 @@ namespace PlaywrightSpecflow.API.Helpers
             {
                 PropertyNameCaseInsensitive = true
             }).Data.Token;
-            
-            Assert.That(string.IsNullOrWhiteSpace(token));
 
             switch (AccessTokens.ContainsKey(username))
             {
